@@ -15,20 +15,29 @@
 </head>
 <body>
 
-    <!-- الهيدر وشريط التنقل -->
+    <!-- الهيدر وشريط التنقل المتجاوب -->
     <header class="header">
         <div class="logo">
             <i class="fa-solid fa-burger"></i> Burger <span>Craft</span>
         </div>
-        <nav class="nav-links">
-            <a href="#hero" class="nav-item active" data-section="hero">الرئيسية</a>
-            <a href="#menu" class="nav-item" data-section="menu">المنيو</a>
-            <a href="#location" class="nav-item" data-section="location">موقعنا</a>
-            <a href="#contact" class="nav-item" data-section="contact">تواصل معنا</a>
+        
+        <!-- روابط التنقل (تختفي على الجوال وتظهر كقائمة منسدلة) -->
+        <nav class="nav-links" id="navLinks">
+            <a href="#hero" class="nav-item active" data-section="hero" onclick="toggleMenu()">الرئيسية</a>
+            <a href="#menu" class="nav-item" data-section="menu" onclick="toggleMenu()">المنيو</a>
+            <a href="#location" class="nav-item" data-section="location" onclick="toggleMenu()">موقعنا</a>
+            <a href="#contact" class="nav-item" data-section="contact" onclick="toggleMenu()">تواصل معنا</a>
         </nav>
-        <div class="cart-btn" onclick="toggleCart()">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span id="cart-count">0</span>
+
+        <div class="header-right">
+            <div class="cart-btn" onclick="toggleCart()">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cart-count">0</span>
+            </div>
+            <!-- زر القائمة المنسدلة للجوال -->
+            <div class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
         </div>
     </header>
 
@@ -128,6 +137,21 @@
         ];
 
         let cart = [];
+
+        // دالة فتح/إغلاق القائمة المنسدلة للجوال
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggleIcon = document.querySelector('#menuToggle i');
+            navLinks.classList.toggle('active');
+            
+            if (navLinks.classList.contains('active')) {
+                menuToggleIcon.classList.remove('fa-bars');
+                menuToggleIcon.classList.add('fa-xmark');
+            } else {
+                menuToggleIcon.classList.remove('fa-xmark');
+                menuToggleIcon.classList.add('fa-bars');
+            }
+        }
 
         function renderMenu() {
             const menuContainer = document.getElementById('menu-items');
@@ -256,7 +280,7 @@
 
             message += `%0A*المجموع الكلي: ${total.toFixed(2)}$*`;
 
-            const whatsappNumber = "972567074637"; // الرقم المحدث
+            const whatsappNumber = "972567074637"; 
             const url = `https://wa.me/${whatsappNumber}?text=${message}`;
             window.open(url, '_blank');
         }
