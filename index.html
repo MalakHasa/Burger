@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Craft | برجر كرافت</title>
+    <!-- خط Cairo العصري -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- مكتبة الأيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- مكتبة الانيميشن AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- ملف الـ CSS الخارجي -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- الهيدر وشريط التنقل -->
+    <header class="header">
+        <div class="logo">
+            <i class="fa-solid fa-burger"></i> Burger <span>Craft</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#hero" class="nav-item active" data-section="hero">الرئيسية</a>
+            <a href="#menu" class="nav-item" data-section="menu">المنيو</a>
+            <a href="#location" class="nav-item" data-section="location">موقعنا</a>
+            <a href="#contact" class="nav-item" data-section="contact">تواصل معنا</a>
+        </nav>
+        <div class="cart-btn" onclick="toggleCart()">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <!-- قسم الواجهة الرئيسية (Hero) -->
+    <section id="hero" class="hero">
+        <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <h1>ألذ سماش برجر في المدينة، محضّر بحُب وحِرفة!</h1>
+            <p>لحم أنغوس طازج 100%، خبز طري محمص، وجبنة مذابة على أصولها.</p>
+            <a href="#cart" class="btn-main" onclick="openCartAndPreventDefault(event)">اطلب الآن <i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+    </section>
+
+    <!-- قسم القائمة (Menu) -->
+    <section id="menu" class="menu-section">
+        <h2 data-aos="fade-down">قائمة الطعام الفاخرة</h2>
+        <p class="section-subtitle" data-aos="fade-down" data-aos-delay="100">اختر وجبتك المفضلة ودع الباقي علينا</p>
+        
+        <div class="menu-grid" id="menu-items">
+            <!-- سيتم تعبئة الأصناف برمجياً -->
+        </div>
+    </section>
+
+    <!-- قسم موقعنا (Location) -->
+    <section id="location" class="location-section" data-aos="fade-up">
+        <h2>موقعنا في غزة</h2>
+        <p class="section-subtitle">زورنا وتعرف على أجواء مطعمنا المميزة</p>
+        <div class="location-card">
+            <div class="location-info">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <h3>فرع غزة الرئيسي</h3>
+                <p>قطاع غزة - شارع الجلاء - بالقرب من مفترق الاتصالات</p>
+                <span class="open-hours"><i class="fa-regular fa-clock"></i> ساعات العمل: يومياً من 12 ظهراً حتى 2 صباحاً</span>
+                <a href="https://maps.google.com/?q=Gaza+Al-Itisalat+Intersection" target="_blank" class="btn-map">
+                    افتح الموقع على الخريطة <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- نافذة سلة الطلبات الجانبية (Cart Drawer) -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>سلة الطلبات</h3>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <div class="empty-cart-box">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <p>السلة فارغة حالياً!</p>
+                <span>قم بالطلب الان واختار ألذ وجبات البرجر من المنيو.</span>
+                <a href="#menu" onclick="toggleCart()" class="btn-to-menu">تصفح المنيو</a>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooterSection">
+            <div class="total-price">
+                <span>المجموع الكلي:</span>
+                <span id="cartTotal">0.00 $</span>
+            </div>
+            
+            <div class="checkout-form">
+                <input type="text" id="clientName" placeholder="الاسم الكامل" required>
+                <input type="tel" id="clientPhone" placeholder="رقم الجوال" required>
+                <input type="text" id="clientAddress" placeholder="العنوان بالتفصيل" required>
+            </div>
+
+            <button class="btn-checkout" onclick="sendToWhatsApp()">إتمام الطلب عبر الواتساب <i class="fa-brands fa-whatsapp"></i></button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+    <!-- تذييل الصفحة (Footer) -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <h3>Burger Craft</h3>
+            <p>جميع الحقوق محفوظة © 2026</p>
+            <p class="yad-credit">Powered by <span style="color: var(--primary);">YAD.WEB</span></p>
+        </div>
+    </footer>
+
+    <!-- مكتبة AOS للانيميشن -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100
+        });
+
+        const products = [
+            { id: 1, name: "كلاسيك سماش برجر", category: "لحم", price: 8.99, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=80" },
+            { id: 2, name: "تريبل تشيز سماش", category: "لحم", price: 11.49, image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=500&auto=format&fit=crop&q=80" },
+            { id: 3, name: "ملتد مشرووم برجر", category: "لحم", price: 9.99, image: "https://images.unsplash.com/photo-1550547660-d9450f859349?w=500&auto=format&fit=crop&q=80" },
+            { id: 4, name: "كريسبي تشيكن ديلايت", category: "دجاج", price: 8.49, image: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=500&auto=format&fit=crop&q=80" },
+            { id: 5, name: "سبايسي بافلو تشيكن", category: "دجاج", price: 8.99, image: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=500&auto=format&fit=crop&q=80" },
+            { id: 6, name: "بطاطس مقلية مقرمشة", category: "مقبلات", price: 3.49, image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=80" },
+            { id: 7, name: "بطاطس بالجبنة والبيكون", category: "مقبلات", price: 5.49, image: "https://images.unsplash.com/photo-1585109649139-366815a0d713?w=500&auto=format&fit=crop&q=80" },
+            { id: 8, name: "مشروب غازي منعش", category: "مشروبات", price: 2.00, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80" }
+        ];
+
+        let cart = [];
+
+        function renderMenu() {
+            const menuContainer = document.getElementById('menu-items');
+            menuContainer.innerHTML = products.map((product, index) => `
+                <div class="menu-card" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <div class="card-img-wrapper">
+                        <div class="card-img" style="background-image: url('${product.image}')"></div>
+                        <span class="category-tag">${product.category}</span>
+                    </div>
+                    <div class="card-body">
+                        <h3>${product.name}</h3>
+                        <div class="card-footer-item">
+                            <span class="price">${product.price.toFixed(2)} $</span>
+                            <button class="btn-add" onclick="addToCart(${product.id})">
+                                <i class="fa-solid fa-plus"></i> أضف للسلة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() {
+            document.getElementById('cartDrawer').classList.toggle('open');
+            document.getElementById('cartOverlay').classList.toggle('open');
+        }
+
+        function openCartAndPreventDefault(e) {
+            e.preventDefault();
+            toggleCart();
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const cartItem = cart.find(item => item.id === productId);
+
+            if (cartItem) {
+                cartItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            
+            const cartBtn = document.querySelector('.cart-btn');
+            cartBtn.style.transform = 'scale(1.1)';
+            setTimeout(() => cartBtn.style.transform = 'scale(1)', 200);
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cart-count');
+            const cartContainer = document.getElementById('cartItemsContainer');
+            const cartFooter = document.getElementById('cartFooterSection');
+
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalCount;
+
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="empty-cart-box">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <p>السلة فارغة حالياً!</p>
+                        <span>قم بالطلب الان واختار ألذ وجبات البرجر من المنيو.</span>
+                        <a href="#menu" onclick="toggleCart()" class="btn-to-menu">تصفح المنيو</a>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+                return;
+            }
+
+            cartFooter.style.display = 'block';
+            let total = 0;
+            cartContainer.innerHTML = cart.map(item => {
+                let subTotal = item.price * item.quantity;
+                total += subTotal;
+                return `
+                    <div class="cart-item">
+                        <div>
+                            <h4>${item.name}</h4>
+                            <p>${item.price.toFixed(2)} $ × ${item.quantity}</p>
+                        </div>
+                        <div class="cart-actions">
+                            <button onclick="changeQty(${item.id}, 1)">+</button>
+                            <span>${item.quantity}</span>
+                            <button onclick="changeQty(${item.id}, -1)">-</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('cartTotal').textContent = total.toFixed(2) + " $";
+        }
+
+        function changeQty(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(i => i.id !== productId);
+                }
+            }
+            updateCartUI();
+        }
+
+        function sendToWhatsApp() {
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const address = document.getElementById('clientAddress').value.trim();
+
+            if (!name || !phone || !address) {
+                alert("الرجاء تعبئة بيانات التوصيل (الاسم، الجوال، العنوان).");
+                return;
+            }
+
+            let message = `*طلب جديد من موقع Burger Craft 🍔*%0A%0A`;
+            message += `*اسم العميل:* ${name}%0A`;
+            message += `*رقم الجوال:* ${phone}%0A`;
+            message += `*العنوان:* ${address}%0A%0A`;
+            message += `*تفاصيل الطلب:*%0A`;
+
+            let total = 0;
+            cart.forEach(item => {
+                let subTotal = item.price * item.quantity;
+                total += subTotal;
+                message += `- ${item.name} (${item.quantity}x) : ${subTotal.toFixed(2)}$%0A`;
+            });
+
+            message += `%0A*المجموع الكلي: ${total.toFixed(2)}$*`;
+
+            const whatsappNumber = "972567074637"; // الرقم المحدث
+            const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+            window.open(url, '_blank');
+        }
+
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section, footer');
+            const navLinks = document.querySelectorAll('.nav-links .nav-item');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        window.onload = () => {
+            renderMenu();
+            updateCartUI();
+        };
+    </script>
+</body>
+</html>
