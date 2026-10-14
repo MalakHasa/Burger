@@ -54,7 +54,7 @@ body {
 
 .nav-links {
     display: flex;
-    gap: 25px;
+    gap: 30px;
 }
 
 .nav-links a {
@@ -536,10 +536,10 @@ body {
     font-weight: 600;
 }
 
-/* التجاوب مع الهواتف الذكية (Media Queries) */
+/* التجاوب مع الهواتف الذكية (Media Queries) - تم التصحيح هنا */
 @media (max-width: 768px) {
     .menu-toggle {
-        display: block;
+        display: block !important;
     }
 
     .nav-links {
@@ -560,7 +560,7 @@ body {
     }
 
     .nav-links.active {
-        right: 0;
+        right: 0 !important;
     }
 
     .nav-links a {

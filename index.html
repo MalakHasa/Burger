@@ -21,7 +21,7 @@
             <i class="fa-solid fa-burger"></i> Burger <span>Craft</span>
         </div>
         
-        <!-- روابط التنقل (تختفي على الجوال وتظهر كقائمة منسدلة) -->
+        <!-- روابط التنقل (تختفي تلقائياً على الجوال) -->
         <nav class="nav-links" id="navLinks">
             <a href="#hero" class="nav-item active" data-section="hero" onclick="toggleMenu()">الرئيسية</a>
             <a href="#menu" class="nav-item" data-section="menu" onclick="toggleMenu()">المنيو</a>
@@ -138,7 +138,6 @@
 
         let cart = [];
 
-        // دالة فتح/إغلاق القائمة المنسدلة للجوال
         function toggleMenu() {
             const navLinks = document.getElementById('navLinks');
             const menuToggleIcon = document.querySelector('#menuToggle i');
